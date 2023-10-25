@@ -4,8 +4,6 @@ import { fetchCatByBreed } from "./cat-api";
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import './style.css';
 
-import SlimSelect from 'slim-select';
-import 'slim-select/dist/slimselect.css';
 
 const selectors = {
   selectBreed: document.querySelector('.breed-select'),
@@ -18,12 +16,10 @@ selectors.selectBreed.style.display = 'none';
 selectors.loaderText.style.display = 'block';
 selectors.errorText.style.display = 'none';
 
-let arrBreedsId = [];
 
 fetchBreeds()
   .then(data => {
     data.forEach(breed => {
-      arrBreedsId.push({ text: breed.name, value: breed.id });
       const option = document.createElement('option');
       option.value = breed.id;
       option.text = breed.name;
@@ -31,10 +27,6 @@ fetchBreeds()
     });
   }).then(() => {
     selectors.selectBreed.style.display = 'inline-block';
-    new SlimSelect({
-      select: '.breed-select',
-      data: arrBreedsId,
-    });
     selectors.loaderText.style.display = 'none';
   })
   .catch(() => {
@@ -52,6 +44,14 @@ selectors.selectBreed.addEventListener('change', handlerChange)
 
 function handlerChange(evt) {
   const breedId = evt.target.value;
+  console.log(breedId);
+  if (evt.target.value === 'mala') {
+    Notify.warning('choose the second cat, something went wrong...', {
+      width: '400px',
+      position: 'center-center',
+      timeout: '5000'
+    })
+  }
   selectors.loaderText.style.display = 'block';
   fetchCatByBreed(breedId)
     .then((data) => selectors.catInfo.innerHTML = markupBreed(data))
