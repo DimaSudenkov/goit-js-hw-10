@@ -46,7 +46,7 @@ function handlerChange(evt) {
   const breedId = evt.target.value;
   console.log(breedId);
   if (evt.target.value === 'mala') {
-    Notify.warning('choose the second cat, something went wrong...', {
+    Notify.warning('Choose another cat, something went wrong...', {
       width: '400px',
       position: 'center-center',
       timeout: '5000'
